@@ -2,7 +2,7 @@ using System;
 
 namespace EcommerceCatalog.Entities
 {
-    public record Products
+    public record Product
     {
         public Guid Id { get; init; }
 
