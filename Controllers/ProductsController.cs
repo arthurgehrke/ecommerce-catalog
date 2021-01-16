@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using EcommerceCatalog.Repositories;
 using System.Collections.Generic;
@@ -21,6 +22,18 @@ namespace EcommerceCatalog.Controllers
         {
             var products = repository.GetProducts();
             return products;
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<Product> GetProduct(Guid id)
+        {
+            var product = repository.GetProduct(id);
+
+            if (product is null){
+                return NotFound();
+            }
+
+            return product;
         }
     }
 }
