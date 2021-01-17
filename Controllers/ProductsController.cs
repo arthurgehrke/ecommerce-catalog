@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using EcommerceCatalog.Repositories;
 using System.Collections.Generic;
 using EcommerceCatalog.Entities;
+using EcommerceCatalog.Dtos;
 
 namespace EcommerceCatalog.Controllers
 {
@@ -18,22 +20,24 @@ namespace EcommerceCatalog.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Product> GetProducts()
+        public IEnumerable<ProductDto> GetProducts()
         {
-            var products = repository.GetProducts();
+            var products = repository.GetProducts().Select(product => product.AsDto());
+
             return products;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Product> GetProduct(Guid id)
+        public ActionResult<ProductDto> GetProduct(Guid id)
         {
             var product = repository.GetProduct(id);
 
-            if (product is null){
+            if (product is null)
+            {
                 return NotFound();
             }
 
-            return product;
+            return product.AsDto();
         }
     }
 }
