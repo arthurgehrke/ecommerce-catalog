@@ -5,7 +5,7 @@ using EcommerceCatalog.Entities;
 
 namespace EcommerceCatalog.Repositories
 {
-    public class InMemProductsRepository
+    public class InMemProductsRepository : IProductsRepository
     {
         private readonly List<Product> products = new()
         {

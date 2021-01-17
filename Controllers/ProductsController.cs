@@ -10,11 +10,11 @@ namespace EcommerceCatalog.Controllers
     [Route("products")]
     public class ProductsController : ControllerBase
     {
-        private readonly InMemProductsRepository repository;
+        private readonly IProductsRepository repository;
 
-        public ProductsController()
+        public ProductsController(IProductsRepository repository)
         {
-            repository = new InMemProductsRepository();
+            this.repository = repository;
         }
 
         [HttpGet]

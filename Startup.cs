@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using EcommerceCatalog.Repositories;
 
 namespace ecommerce_catalog
 {
@@ -27,6 +28,7 @@ namespace ecommerce_catalog
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddSingleton<IProductsRepository, InMemProductsRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
