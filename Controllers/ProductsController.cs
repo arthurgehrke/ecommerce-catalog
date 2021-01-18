@@ -39,5 +39,21 @@ namespace EcommerceCatalog.Controllers
 
             return product.AsDto();
         }
+
+        [HttpPost]
+        public ActionResult<ProductDto> CreateProduct(CreateProductDto productDto)
+        {
+            Product product = new()
+            {
+                Id = Guid.NewGuid(),
+                Name = productDto.Name,
+                Price = productDto.Price,
+                CreatedAt = DateTimeOffset.UtcNow
+            };
+
+            repository.CreateProduct(product);
+
+            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product.AsDto());
+        }
     }
 }

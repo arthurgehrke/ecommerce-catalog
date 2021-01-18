@@ -23,5 +23,10 @@ namespace EcommerceCatalog.Repositories
         {
             return products.Where(product => product.Id == id).SingleOrDefault(); 
         }
+
+        public void CreateProduct(Product product)
+        {
+            products.Add(product);
+        }
     }
 }

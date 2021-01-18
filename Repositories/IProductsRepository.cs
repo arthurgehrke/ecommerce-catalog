@@ -8,5 +8,6 @@ namespace EcommerceCatalog.Repositories
     {
         Product GetProduct(Guid id);
         IEnumerable<Product> GetProducts();
+        void CreateProduct(Product product);
     }
 }
