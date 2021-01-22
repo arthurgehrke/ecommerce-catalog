@@ -28,5 +28,11 @@ namespace EcommerceCatalog.Repositories
         {
             products.Add(product);
         }
+
+        public void UpdateProduct(Product product)
+        {
+            var index = products.FindIndex(existingProduct => existingProduct.Id == product.Id);
+            products[index] = product;
+        }
     }
 }

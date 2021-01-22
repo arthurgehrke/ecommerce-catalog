@@ -55,5 +55,26 @@ namespace EcommerceCatalog.Controllers
 
             return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product.AsDto());
         }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateProduct(Guid id, UpdateProductDto productDto)
+        {
+            var existingProduct = repository.GetProduct(id);
+
+            if(existingProduct is null)
+            {
+                return NotFound();
+            }
+
+            Product updatedProduct = existingProduct with 
+            {
+                Name = productDto.Name,
+                Price = productDto.Price
+            };
+
+            repository.UpdateProduct(updatedProduct);
+
+            return NoContent();
+        }
     }
 }
