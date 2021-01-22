@@ -34,5 +34,11 @@ namespace EcommerceCatalog.Repositories
             var index = products.FindIndex(existingProduct => existingProduct.Id == product.Id);
             products[index] = product;
         }
+
+        public void DeleteProduct(Guid id)
+        {
+            var index = products.FindIndex(existingProduct => existingProduct.Id == id);
+            products.RemoveAt(index);
+        }
     }
 }

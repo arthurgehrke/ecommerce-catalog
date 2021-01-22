@@ -76,5 +76,20 @@ namespace EcommerceCatalog.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteProduct(Guid id )
+        {
+            var existingProduct = repository.GetProduct(id);
+
+            if(existingProduct is null)
+            {
+                return NotFound();
+            }
+
+            repository.DeleteProduct(id);
+
+            return NoContent();
+        }
     }
 }
