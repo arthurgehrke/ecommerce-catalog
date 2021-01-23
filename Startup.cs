@@ -12,6 +12,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using EcommerceCatalog.Repositories;
+using MongoDB.Driver;
+using MongoDB.Bson.Serialization; 
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson;
+using EcommerceCatalog.Settings; 
 
 namespace ecommerce_catalog
 {
@@ -27,8 +32,15 @@ namespace ecommerce_catalog
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
+            BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
 
-            services.AddSingleton<IProductsRepository, InMemProductsRepository>();
+            services.AddSingleton<IMongoClient>( serviceProvider => 
+            {
+                var settings = Configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
+                return new MongoClient(settings.ConnectionString);
+            });
+            services.AddSingleton<IProductsRepository, MongoDbProductsRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
