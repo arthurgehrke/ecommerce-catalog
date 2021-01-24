@@ -41,7 +41,10 @@ namespace ecommerce_catalog
                 return new MongoClient(settings.ConnectionString);
             });
             services.AddSingleton<IProductsRepository, MongoDbProductsRepository>();
-            services.AddControllers();
+            services.AddControllers(options => 
+            {
+                options.SuppressAsyncSuffixInActionNames = false;
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ecommerce_catalog", Version = "v1" });
