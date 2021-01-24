@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using EcommerceCatalog.Entities;
 
 namespace EcommerceCatalog.Repositories
@@ -14,31 +15,35 @@ namespace EcommerceCatalog.Repositories
             new Product { Id = Guid.NewGuid(), Name = "product_3", Price = 30, CreatedAt = DateTimeOffset.UtcNow }
         };
         
-        public IEnumerable<Product> GetProducts()
+        public async Task<IEnumerable<Product>> GetProductsAsync()
         {
-            return products;
+            return await Task.FromResult(products);
         }       
 
-        public Product GetProduct(Guid id)
+        public async Task<Product> GetProductAsync(Guid id)
         {
-            return products.Where(product => product.Id == id).SingleOrDefault(); 
+            var product = products.Where(product => product.Id == id).SingleOrDefault(); 
+            return await Task.FromResult(product);
         }
 
-        public void CreateProduct(Product product)
+        public async Task CreateProductAsync(Product product)
         {
             products.Add(product);
+            await Task.CompletedTask;
         }
 
-        public void UpdateProduct(Product product)
+        public async Task UpdateProductAsync(Product product)
         {
             var index = products.FindIndex(existingProduct => existingProduct.Id == product.Id);
             products[index] = product;
+            await Task.CompletedTask;
         }
 
-        public void DeleteProduct(Guid id)
+        public async Task DeleteProductAsync(Guid id)
         {
             var index = products.FindIndex(existingProduct => existingProduct.Id == id);
             products.RemoveAt(index);
+            await Task.CompletedTask;
         }
     }
 }

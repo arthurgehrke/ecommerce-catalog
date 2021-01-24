@@ -4,6 +4,7 @@ using EcommerceCatalog.Repositories;
 using EcommerceCatalog.Entities;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using System.Threading.Tasks;
 
 namespace EcommerceCatalog.Repositories
 
@@ -20,33 +21,32 @@ namespace EcommerceCatalog.Repositories
         productsCollection = database.GetCollection<Product>(collectionName);
     }
 
-    public IEnumerable<Product> GetProducts()
+    public async Task<IEnumerable<Product>> GetProductsAsync()
     {
-      return productsCollection.Find(new BsonDocument()).ToList();
+      return await productsCollection.Find(new BsonDocument()).ToListAsync();
     }
 
-    public Product GetProduct(Guid id)
+    public async Task<Product> GetProductAsync(Guid id)
     {
       var filter = filterBuilder.Eq(product => product.Id, id);
-
-      return productsCollection.Find(filter).SingleOrDefault(); 
+      return await productsCollection.Find(filter).SingleOrDefaultAsync(); 
     }
 
-    public void UpdateProduct(Product product)
+    public async Task UpdateProductAsync(Product product)
     {
       var filter = filterBuilder.Eq(existingProduct => existingProduct.Id, product.Id);
-      productsCollection.ReplaceOne(filter, product);
+      await productsCollection.ReplaceOneAsync(filter, product);
     }
 
-    public void CreateProduct(Product product)
+    public async Task CreateProductAsync(Product product)
     {
-      productsCollection.InsertOne(product);
+      await productsCollection.InsertOneAsync(product);
     }
 
-    public void DeleteProduct(Guid id)
+    public async Task DeleteProductAsync(Guid id)
     {
       var filter = filterBuilder.Eq(existingProduct => existingProduct.Id, id);
-      productsCollection.DeleteOne(filter);
+      await productsCollection.DeleteOneAsync(filter);
     }
   }
 }
